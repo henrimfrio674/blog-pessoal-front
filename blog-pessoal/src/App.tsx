@@ -1,13 +1,13 @@
 import React from 'react';
-import Home from './paginas/home/Home';
 import './App.css';
-
 
 function App() {
   return (
-   <Home  title="Componente Home"
-          description="Este é um componente Home que recebe props."/>
-  );
+    <>
+    <h1 className="text-3xl font-bold text-red-500 underline text-center">
+      Hello world!
+    </h1>
+    </>
+);
 }
-
 export default App;
