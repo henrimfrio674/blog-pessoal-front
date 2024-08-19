@@ -1,29 +1,44 @@
-import React, { useContext, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useContext } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../../contexts/AuthContext'
-import loginLogo from '../../assets/login.jpg'
-function Perfil() {
+
+
+function Navbar() {
   let navigate = useNavigate()
 
-    const { usuario } = useContext(AuthContext)
+    const { usuario, handleLogout } = useContext(AuthContext)
 
-    useEffect(() => {
-        if (usuario.token === "") {
-            alert('Você precisa estar logado')
-            navigate("/login")
-        }
-    }, [usuario.token])
-    
+    function logout() {
+        handleLogout()
+        alert('Usuário deslogado com sucesso')
+        navigate('/login')
+    }
+
+    let navbarComponent
+
+    if(usuario.token !== "") {
+      navbarComponent = (
+        <div className='w-full bg-indigo-900 text-white flex justify-center py-4'>
+          <div className="container flex justify-between text-lg">
+            <Link to='/home' className='text-2xl font-bold uppercase'>Blog Pessoal</Link>
+
+            <div className='flex gap-4'>
+              <Link to='/postagens' className='hover:underline'>Postagens</Link>
+              <Link to='/temas' className='hover:underline'>Temas</Link>
+              <Link to='/cadastroTema' className='hover:underline'>Cadastrar tema</Link>
+              <Link to='/perfil' className='hover:underline'>Perfil</Link>
+              <Link to='' onClick={logout} className='hover:underline'>Sair</Link>
+            </div>
+          </div>
+        </div>
+      )
+    }
+
   return (
-    <div className='container mx-auto mt-4 rounded-2xl overflow-hidden'>
-      <img className='w-full h-72 object-cover border-b-8 border-white' src={loginLogo} alt="Capa do Perfil" />
-      <img src={usuario.foto} alt={`Foto de perfil de ${usuario.nome}`} className='rounded-full w-56 mx-auto mt-[-8rem] border-8 border-white relative z-10' />
-      <div className="relative mt-[-6rem] h-72 flex flex-col bg-sky-500 text-white text-2xl items-center justify-center">
-        <p>Nome: {usuario.nome} </p>
-        <p>Email: {usuario.usuario}</p>
-      </div>
-    </div>
+    <>
+      {navbarComponent}
+    </>
   )
 }
 
-export default Perfil
+export default Navbar
